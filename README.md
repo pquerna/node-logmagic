@@ -3,6 +3,10 @@ Welcome to Log Magic.
 
 This project isn't usable yet. No promises.  The Bellow is an idea.
 
+The goal is to have a fast and easy to use logging subsystem that can be dynamically
+reconfigured to provide insight into production systems.
+
+
 Getting Started
 ====================
 
