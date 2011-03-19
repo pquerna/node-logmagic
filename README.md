@@ -8,26 +8,20 @@ Getting Started
 
 If you had a file named like, "lib/foo/bar.js", at the top of it, you would put the following:
 
-```var log = require('logmagic').local('mylib.foo.bar');```
+    var log = require('logmagic').local('mylib.foo.bar');
 
 Then inside bar.js, you would just use the logger like any normal logger:
 
-```
-  log.info("Hello!")
-  log.error("Accepts format strings too ${SOME_VAR}", {SOME_VAR: "myvalue"})
-```
+    log.info("Hello!")
+    log.error("Accepts format strings too ${SOME_VAR}", {SOME_VAR: "myvalue"})
 
 In any other part of your application, you can reconfigure the logging subsystem at runtime,
 making it easy to change log levels for specific modules dynamically.
-```
-   var logmagic = require('logmagic');
 
-   logmagic.registerSink("mysink", function(level, message) { console.log(message); });
-
-   /* Reconfigure all children of mylib to log all debug messages to your custom sink */
-   logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
-
-```
+    var logmagic = require('logmagic');
+    logmagic.registerSink("mysink", function(level, message) { console.log(message); });
+    /* Reconfigure all children of mylib to log all debug messages to your custom sink */
+    logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
 
 Builtin sinks include:
 
