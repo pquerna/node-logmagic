@@ -34,7 +34,10 @@ making it easy to change log levels for specific modules dynamically.
 
 Builtin sinks include:
 
-* Standard Out, Standard Error
+* Standard Error
+
+Future features:
+* Standard Out
 * Facebook Scribe: https://github.com/facebook/scribe
 * File
 * Unix Socket
