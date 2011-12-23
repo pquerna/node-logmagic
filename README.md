@@ -24,7 +24,7 @@ In any other part of your application, you can reconfigure the logging subsystem
 making it easy to change log levels for specific modules dynamically.
 
     var logmagic = require('logmagic');
-    logmagic.registerSink("mysink", function(level, message) { console.log(message); });
+    logmagic.registerSink("mysink", function(module, level, message) { console.log(message); });
     
     /* Send Info an higher in the root logger to stdout */
     logmagic.route("__root__", logmagic.INFO, "stdout")
