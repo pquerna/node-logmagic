@@ -6,6 +6,9 @@ This project is usable. It doesn't do everything it should, yet.
 The goal is to have a fast and easy to use logging subsystem that can be dynamically
 reconfigured to provide insight into production systems.
 
+Logmagic does its magic by generating objects with generated functions that are only modified
+when the logging system is reconfigured,  thus your entire logging path is contained within 
+long-lived functions that V8 is able to JIT.
 
 Getting Started
 ====================
