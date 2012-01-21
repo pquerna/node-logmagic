@@ -42,6 +42,7 @@ Builtin sinks include:
 * Graylog2-style JSON to stderr
 
 Future features:
+
 * Standard Out
 * Facebook Scribe: https://github.com/facebook/scribe
 * File
