@@ -8,7 +8,7 @@ log.trace("testing trace v0");
 
 logmagic.route("__root__", logmagic.TRACE1, "console");
 logmagic.route("__root__", logmagic.TRACE1, "graylog2-stderr");
-logmagic.route("__root__", logmagic.TRACE1, "color-console");
+logmagic.route("__root__", logmagic.TRACE1, "colorConsole");
 
 log.trace("testing trace v1", {slug: 1});
 
@@ -40,16 +40,27 @@ function tryIt(header, log) {
 
 tryIt("Colorful", log);
 
-logmagic.setSinkOptions("color-console", {plain: true});
+logmagic.setSinkOptions("colorConsole", {plain: true});
 tryIt("Plain", log);
 
-logmagic.setSinkOptions("color-console", {scheme: "light"});
+logmagic.setSinkOptions("colorConsole", {scheme: "light"});
 tryIt("Light", log);
 
 
-logmagic.setSinkOptions("color-console", {scheme: {nsColor: "green"}});
+logmagic.setSinkOptions("colorConsole", {scheme: {nsColor: "green"}});
 tryIt("Custom colors", log);
 
+
+var fileLog = new logmagic.sinks.File({filename: "file.log"});
+logmagic.registerSink("fileLog", fileLog);
+logmagic.route("__root__", logmagic.TRACE1, "fileLog");
+tryIt("File > file.log", log);
+
+
+var recipients = new logmagic.sinks.Recipients({list: logmagic.getSinkInstances(["fileLog", "colorConsole"])});
+logmagic.registerSink("recipients", recipients);
+logmagic.route("__root__", logmagic.TRACE1, "recipients");
+tryIt("Route to colorConsole and file", log);
 
 
 //console.log(log);

@@ -10,6 +10,7 @@ Logmagic does its magic by generating objects with generated functions that are 
 when the logging system is reconfigured,  thus your entire logging path is contained within
 long-lived functions that V8 is able to JIT.
 
+
 Getting Started
 ====================
 
@@ -36,36 +37,62 @@ making it easy to change log levels for specific modules dynamically.
     logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
 
 
-Builtin sinks include:
-
-* color-console
-* console
-* graylog2-stderr - Graylog2-style JSON to stderr
-
-Future features:
-
-* Standard Out
-* Facebook Scribe: https://github.com/facebook/scribe
-* File
-* Unix Socket
-* Syslog
-
-
-Defining a sink
+Sinks
 ===============
 
 Sink modules should have this interface
 
-    module.exports = {
-        name: "sink name",
-        callback: function(modulename, level, message, obj) {}
-        setOptions: function(options) {}
-    };
+    {
+      // the log message callback
+      callback: function(modulename, level, message, obj) {}
 
-Registering a sink
+      // sets options for sink
+      setOptions: function(options) {}
 
-    logmagic.registerSink(require('./yoursink'));
+      // dispose of resources
+      dispose: function() {}
+    }
 
-Setting options on a sink
+Registering a sink instance
 
-    logmagic.setSinkOptions("color-console", {plain: true});
+    var fileLog = new logmagic.sinks.file("/var/log/myapp.log");
+    logmagic.registerSink("main", fileLog);
+
+Setting options on a sink instance
+
+    logmagic.setSinkOptions("color", {plain: true});
+
+
+Using multiple sinks
+
+    var fileLog = new logmagic.sinks.File("/var/log/myapp.log");
+    var color = new logmagic.sinks.ColorConsole({scheme: "dark"});
+    var recipients = new logmagic.sinks.Recipients({list: [fileLog, color]});
+    logmagic.registerSink("recipients", recipients);
+
+or, use pre-registered sinks
+
+    new logmagic.sinks.Recipients(logmagic.getSinkInstances({list: ["console", "fileLog"]}));
+
+Pre-reigstered sinks
+* "console"
+* "colorConsole"
+* "grayLog2-stderr"
+
+Built-in sinks
+
+* `Recipients`: log to a list of sinks
+* `File`: log to a file
+* `ColorConsole`: log to console with colors (may be disabled)
+* `Console`: log to console (lightweight)
+* `GrayLog2`: Graylog2-style JSON to stderr
+
+Future features:
+
+* Facebook Scribe: https://github.com/facebook/scribe
+* Unix Socket
+* Syslog
+
+
+See `tests/t.js` for an example.
+
