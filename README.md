@@ -44,49 +44,51 @@ Sinks
 Sink modules should have this interface
 
     {
-      // the log message callback
+      /* the log message callback */
       callback: function(modulename, level, message, obj) {}
 
-      // sets options for sink
+      /* sets options for sink */
       setOptions: function(options) {}
 
-      // dispose of resources
+      /* dispose of resources */
       dispose: function() {}
     }
 
-Registering a sink instance
+Registering a sink instance with full control
 
     var fileLog = new logmagic.sinks.File({filename: "/var/log/myapp.log"});
     logmagic.registerSink("main", fileLog);
 
+
+Registering the easy way for `ColorConsole`, `File` and  `Recipients`
+
+    logmagic.registerFileSink("fileLog", "/var/log/myapp.log");
+    logmagic.registerConsoleSink("colorConsole", "dark");
+
+
 Setting options on a sink instance
 
     logmagic.setSinkOptions("colorConsole", {plain: true});
+    logmagic.setSinkOptions("colorConsole", {scheme: "light"});
 
-Using multiple sinks
+Routing to multiple sinks
 
-    var fileLog = new logmagic.sinks.File({filename: "/var/log/myapp.log"});
-    var color = new logmagic.sinks.ColorConsole({scheme: "dark"});
-    var recipients = new logmagic.sinks.Recipients({list: [fileLog, color]});
-    logmagic.registerSink("recipients", recipients);
-
-or, use pre-registered sinks
-    var sinks = logmagic.getSinkInstances(["console", "fileLog"]);
-    new logmagic.sinks.Recipients({list: sinks});
+    logmagic.registerRecipientsSink("multi", ["fileLog", "colorConsole"]);
+    logmagic.route("__root__", logmagic.INFO, "multi")
 
 Pre-registered sinks
 
-* `"console"`
 * `"colorConsole"`
+* `"console"`
 * `"grayLog2-stderr"`
 
 Built-in sinks
 
-* `Recipients`: log to a list of sinks
-* `File`: log to a file
 * `ColorConsole`: log to console with colors (may be disabled)
 * `Console`: log to console (lightweight)
 * `GrayLog2`: Graylog2-style JSON to stderr
+* `File`: log to a file
+* `Recipients`: log to multiple registered sinks
 
 Future features:
 
