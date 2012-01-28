@@ -51,16 +51,16 @@ logmagic.setSinkOptions("colorConsole", {scheme: {nsColor: "green"}});
 tryIt("Custom colors", log);
 
 
-var fileLog = new logmagic.sinks.File({filename: "file.log"});
-logmagic.registerSink("fileLog", fileLog);
+logmagic.registerFileSink("fileLog", "file.log");
 logmagic.route("__root__", logmagic.TRACE1, "fileLog");
 tryIt("File > file.log", log);
 
-
-var recipients = new logmagic.sinks.Recipients({list: logmagic.getSinkInstances(["fileLog", "colorConsole"])});
-logmagic.registerSink("recipients", recipients);
+logmagic.registerRecipientsSink("recipients", ["fileLog", "colorConsole"]);
 logmagic.route("__root__", logmagic.TRACE1, "recipients");
 tryIt("Route to colorConsole and file", log);
 
+logmagic.registerSink("ad-hoc", {callback: function(module, level, message) { console.log(message); }});
+logmagic.route("__root__", logmagic.TRACE1, "ad-hoc");
+tryIt("ad-hoc", log);
 
 //console.log(log);

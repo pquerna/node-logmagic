@@ -27,8 +27,9 @@ Then inside bar.js, you would just use the logger like any normal logger:
 In any other part of your application, you can reconfigure the logging subsystem at runtime,
 making it easy to change log levels for specific modules dynamically.
 
+    /* Register an ad-hoc sink */
     var logmagic = require('logmagic');
-    logmagic.registerSink({name: "mysink", callback: function(module, level, message) { console.log(message); }});
+    logmagic.registerSink("ad-hoc", {callback: function(module, level, message) { console.log(message); }});
 
     /* Send Info an higher in the root logger to stdout */
     logmagic.route("__root__", logmagic.INFO, "console")
@@ -55,29 +56,29 @@ Sink modules should have this interface
 
 Registering a sink instance
 
-    var fileLog = new logmagic.sinks.file("/var/log/myapp.log");
+    var fileLog = new logmagic.sinks.File({filename: "/var/log/myapp.log"});
     logmagic.registerSink("main", fileLog);
 
 Setting options on a sink instance
 
-    logmagic.setSinkOptions("color", {plain: true});
-
+    logmagic.setSinkOptions("colorConsole", {plain: true});
 
 Using multiple sinks
 
-    var fileLog = new logmagic.sinks.File("/var/log/myapp.log");
+    var fileLog = new logmagic.sinks.File({filename: "/var/log/myapp.log"});
     var color = new logmagic.sinks.ColorConsole({scheme: "dark"});
     var recipients = new logmagic.sinks.Recipients({list: [fileLog, color]});
     logmagic.registerSink("recipients", recipients);
 
 or, use pre-registered sinks
+    var sinks = logmagic.getSinkInstances(["console", "fileLog"]);
+    new logmagic.sinks.Recipients({list: sinks});
 
-    new logmagic.sinks.Recipients(logmagic.getSinkInstances({list: ["console", "fileLog"]}));
+Pre-registered sinks
 
-Pre-reigstered sinks
-* "console"
-* "colorConsole"
-* "grayLog2-stderr"
+* `"console"`
+* `"colorConsole"`
+* `"grayLog2-stderr"`
 
 Built-in sinks
 
@@ -95,4 +96,3 @@ Future features:
 
 
 See `tests/t.js` for an example.
-
