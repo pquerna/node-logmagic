@@ -7,7 +7,7 @@ The goal is to have a fast and easy to use logging subsystem that can be dynamic
 reconfigured to provide insight into production systems.
 
 Logmagic does its magic by generating objects with generated functions that are only modified
-when the logging system is reconfigured,  thus your entire logging path is contained within 
+when the logging system is reconfigured,  thus your entire logging path is contained within
 long-lived functions that V8 is able to JIT.
 
 Getting Started
@@ -27,19 +27,20 @@ In any other part of your application, you can reconfigure the logging subsystem
 making it easy to change log levels for specific modules dynamically.
 
     var logmagic = require('logmagic');
-    logmagic.registerSink("mysink", function(module, level, message) { console.log(message); });
-    
+    logmagic.registerSink({name: "mysink", callback: function(module, level, message) { console.log(message); }});
+
     /* Send Info an higher in the root logger to stdout */
-    logmagic.route("__root__", logmagic.INFO, "stdout")
-    
+    logmagic.route("__root__", logmagic.INFO, "console")
+
     /* Reconfigure all children of mylib to log all debug messages to your custom sink */
     logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
 
 
 Builtin sinks include:
 
-* stderr
-* Graylog2-style JSON to stderr
+* color-console
+* console
+* graylog2-stderr - Graylog2-style JSON to stderr
 
 Future features:
 
@@ -48,3 +49,23 @@ Future features:
 * File
 * Unix Socket
 * Syslog
+
+
+Defining a sink
+===============
+
+Sink modules should have this interface
+
+    module.exports = {
+        name: "sink name",
+        callback: function(modulename, level, message, obj) {}
+        setOptions: function(options) {}
+    };
+
+Registering a sink
+
+    logmagic.registerSink(require('./yoursink'));
+
+Setting options on a sink
+
+    logmagic.setSinkOptions("color-console", {plain: true});
