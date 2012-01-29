@@ -29,13 +29,13 @@ making it easy to change log levels for specific modules dynamically.
 
     /* Register an ad-hoc sink */
     var logmagic = require('logmagic');
-    logmagic.registerSink("ad-hoc", {callback: function(module, level, message) { console.log(message); }});
+    logmagic.registerSink("ad-hoc", function(module, level, message) { console.log(message); });
 
     /* Send Info an higher in the root logger to stdout */
     logmagic.route("__root__", logmagic.INFO, "console")
 
     /* Reconfigure all children of mylib to log all debug messages to your custom sink */
-    logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
+    logmagic.route("mylib.*", logmagic.DEBUG, "ad-hoc")
 
 
 Sinks

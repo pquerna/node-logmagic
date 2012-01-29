@@ -59,7 +59,7 @@ logmagic.registerRecipientsSink("recipients", ["fileLog", "colorConsole"]);
 logmagic.route("__root__", logmagic.TRACE1, "recipients");
 tryIt("Route to colorConsole and file", log);
 
-logmagic.registerSink("ad-hoc", {callback: function(module, level, message) { console.log(message); }});
+logmagic.registerSink("ad-hoc", function(module, level, message) { console.log(message); });
 logmagic.route("__root__", logmagic.TRACE1, "ad-hoc");
 tryIt("ad-hoc", log);
 
