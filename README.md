@@ -7,8 +7,9 @@ The goal is to have a fast and easy to use logging subsystem that can be dynamic
 reconfigured to provide insight into production systems.
 
 Logmagic does its magic by generating objects with generated functions that are only modified
-when the logging system is reconfigured,  thus your entire logging path is contained within 
+when the logging system is reconfigured,  thus your entire logging path is contained within
 long-lived functions that V8 is able to JIT.
+
 
 Getting Started
 ====================
@@ -26,25 +27,74 @@ Then inside bar.js, you would just use the logger like any normal logger:
 In any other part of your application, you can reconfigure the logging subsystem at runtime,
 making it easy to change log levels for specific modules dynamically.
 
+    /* Register an ad-hoc sink */
     var logmagic = require('logmagic');
-    logmagic.registerSink("mysink", function(module, level, message) { console.log(message); });
-    
+    logmagic.registerSink("ad-hoc", function(module, level, message) { console.log(message); });
+
     /* Send Info an higher in the root logger to stdout */
-    logmagic.route("__root__", logmagic.INFO, "stdout")
-    
+    logmagic.route("__root__", logmagic.INFO, "console")
+
     /* Reconfigure all children of mylib to log all debug messages to your custom sink */
-    logmagic.route("mylib.*", logmagic.DEBUG, "mysink")
+    logmagic.route("mylib.*", logmagic.DEBUG, "ad-hoc")
 
 
-Builtin sinks include:
+Sinks
+===============
 
-* stderr
-* Graylog2-style JSON to stderr
+Sink modules should have this interface
+
+    {
+      /* the log message callback */
+      callback: function(modulename, level, message, obj) {}
+
+      /* sets options for sink */
+      setOptions: function(options) {}
+
+      /* dispose of resources */
+      dispose: function() {}
+    }
+
+Registering a sink instance with full control
+
+    var fileLog = new logmagic.sinks.File({filename: "/var/log/myapp.log"});
+    logmagic.registerSink("main", fileLog);
+
+
+Registering the easy way for `ColorConsole`, `File` and  `Recipients`
+
+    logmagic.registerFileSink("fileLog", "/var/log/myapp.log");
+    logmagic.registerConsoleSink("colorConsole", "dark");
+
+
+Setting options on a sink instance
+
+    logmagic.setSinkOptions("colorConsole", {plain: true});
+    logmagic.setSinkOptions("colorConsole", {scheme: "light"});
+
+Routing to multiple sinks
+
+    logmagic.registerRecipientsSink("multi", ["fileLog", "colorConsole"]);
+    logmagic.route("__root__", logmagic.INFO, "multi")
+
+Pre-registered sinks
+
+* `"colorConsole"`
+* `"console"`
+* `"grayLog2-stderr"`
+
+Built-in sinks
+
+* `ColorConsole`: log to console with colors (may be disabled)
+* `Console`: log to console (lightweight)
+* `GrayLog2`: Graylog2-style JSON to stderr
+* `File`: log to a file
+* `Recipients`: log to multiple registered sinks
 
 Future features:
 
-* Standard Out
 * Facebook Scribe: https://github.com/facebook/scribe
-* File
 * Unix Socket
 * Syslog
+
+
+See `tests/t.js` for an example.
