@@ -1,3 +1,5 @@
+var dgram = require('dgram');
+
 var logmagic = require('../lib/logmagic');
 var log = logmagic.local('mylib.foo.bar');
 //console.log(log);
@@ -62,5 +64,15 @@ tryIt("Route to colorConsole and file", log);
 logmagic.registerSink("ad-hoc", function(module, level, message) { console.log(message); });
 logmagic.route("__root__", logmagic.TRACE1, "ad-hoc");
 tryIt("ad-hoc", log);
+
+var client = dgram.createSocket('udp4');
+logmagic.setSinkOptions("graylog2", {transport: "udp", host: 'localhost', port: 5858, client: client});
+logmagic.registerRecipientsSink("recipients", ["console", "graylog2"]);
+logmagic.route("__root__", logmagic.TRACE1, "recipients");
+tryIt("udp test", log);
+
+setTimeout(function() {
+  client.close();
+}, 300);
 
 //console.log(log);
