@@ -11,7 +11,7 @@ logmagic.route("__root__", logmagic.TRACE1, "graylog2-stderr");
 log.trace("testing trace v1", {slug: 1});
 
 log = logmagic.local('mylib.foo.cars');
-log.trace("hello world", {counter: 33, account_id: 42, txnid: "fxxxxx"});
+log.trace("hello world", {counter: 33, account_id: 42, txnid: "fxxxxx", id: "i'm an id, screwing stuff up"});
 logmagic.addRewriter(function(modulename, level, msg, extra) {
   if (extra.request) {
     extra.accountId = extra.request.account.id;
