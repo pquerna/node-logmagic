@@ -1,0 +1,27 @@
+{
+  "name": "logmagic",
+  "version": "0.1.4",
+  "homepage": "https://github.com/pquerna/node-logmagic",
+  "authors": [
+    "Paul Querna <pquerna@apache.org> (http://paul.querna.org/)"
+  ],
+  "description": "Dynamic and Configurable logging framework",
+  "license": "Apache 2.0",
+  "main": [
+    "dist/logmagic.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "tests",
+    "lib",
+    "*.md",
+    "package.json",
+    "bower.json",
+    "Makefile"
+  ],
+  "keywords": [
+    "logmagic",
+    "logging",
+    "loggers"
+  ]
+}
