@@ -1,14 +1,18 @@
 {
   "name": "logmagic",
   "description": "Dynamic and Configurable logging framework for node.js",
-  "version": "0.1.4",
+  "version": "0.2.0",
+  "devDependencies": {
+    "uglify-js": "1.3.5",
+    "gluejs": "2.1.4"
+  },
   "homepage": "https://github.com/pquerna/node-logmagic/",
   "repository": {
     "type": "git",
     "url": "git://github.com/pquerna/node-logmagic.git"
   },
   "author": "Paul Querna <pquerna@apache.org> (http://paul.querna.org/)",
-  "main": "lib/logmagic.js",
+  "main": "lib/node/logmagic.js",
   "directories": {
     "lib": "lib"
   },

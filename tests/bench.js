@@ -1,4 +1,4 @@
-var graylog = require('../lib/graylog');
+var graylog = require('../lib/node/graylog');
 var ops = 100000;
 
 var start = (new Date().getTime());
