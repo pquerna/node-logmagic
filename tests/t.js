@@ -1,4 +1,4 @@
-var logmagic = require('../lib/logmagic');
+var logmagic = require('../lib/node/logmagic');
 var log = logmagic.local('mylib.foo.bar');
 //console.log(log);
 log.info("Hello!");
