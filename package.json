@@ -12,7 +12,11 @@
   "directories": {
     "lib": "lib"
   },
-  "engines": {
-    "node": "*"
+  "scripts": {
+    "fix": "node_modules/.bin/jsfmt --write lib/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "jsfmt": "^0.4.1"
   }
 }
