@@ -6,7 +6,9 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "moment": "^2.10.2"
+  },
   "devDependencies": {
     "jsfmt": "^0.4.1"
   },
