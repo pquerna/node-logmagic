@@ -1,22 +1,29 @@
 {
   "name": "logmagic",
-  "description": "Dynamic and Configurable logging framework for node.js",
-  "version": "0.1.4",
-  "homepage": "https://github.com/pquerna/node-logmagic/",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pquerna/node-logmagic.git"
-  },
-  "author": "Paul Querna <pquerna@apache.org> (http://paul.querna.org/)",
+  "version": "0.2.0",
+  "description": "Dynamic and Configurable logging library for node.js",
   "main": "lib/logmagic.js",
   "directories": {
-    "lib": "lib"
+    "test": "tests"
   },
-  "scripts": {
-    "fix": "node_modules/.bin/jsfmt --write lib/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "jsfmt": "^0.4.1"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pquerna/node-logmagic.git"
+  },
+  "keywords": [
+    "logging"
+  ],
+  "author": "Paul Querna <pquerna@apache.org> (http://paul.querna.org/)",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/pquerna/node-logmagic/issues"
+  },
+  "homepage": "https://github.com/pquerna/node-logmagic"
 }
