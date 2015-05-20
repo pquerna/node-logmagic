@@ -1,6 +1,6 @@
 {
   "name": "logmagic",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Dynamic and Configurable logging library for node.js",
   "main": "lib/logmagic.js",
   "directories": {
