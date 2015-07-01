@@ -1,14 +1,14 @@
 Welcome to Log Magic.
 ====================
 
-This project is usable. It doesn't do everything it should, yet.
+This project is stable. It is used in production by various companies.
 
 The goal is to have a fast and easy to use logging subsystem that can be dynamically
-reconfigured to provide insight into production systems.
+reconfigured to provide insight into production systems.  It supports being used from within a normal Node.js, [Electron Application](http://electron.atom.io/), or in a Web Browser (via [Browserify](http://browserify.org/)).
 
 Logmagic does its magic by generating objects with generated functions that are only modified
 when the logging system is reconfigured,  thus your entire logging path is contained within 
-long-lived functions that V8 is able to JIT.
+long-lived functions that v8/JS engines are able to JIT.
 
 Getting Started
 ====================
@@ -38,13 +38,6 @@ making it easy to change log levels for specific modules dynamically.
 
 Builtin sinks include:
 
-* stderr
+* pretty-printed console (colors, easy to read)
 * Graylog2-style JSON to stderr
 
-Future features:
-
-* Standard Out
-* Facebook Scribe: https://github.com/facebook/scribe
-* File
-* Unix Socket
-* Syslog
