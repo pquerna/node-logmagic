@@ -7,8 +7,7 @@
     "test": "tests"
   },
   "dependencies": {
-    "chalk": "^1.0.0",
-    "moment": "^2.10.2"
+    "chalk": "^1.0.0"
   },
   "devDependencies": {
     "jsfmt": "^0.4.1"
